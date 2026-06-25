@@ -1,0 +1,14 @@
+target/
+project/target/
+project/project/
+.bsp/
+.metals/
+
+
+.env
+*.pem
+*.key
+application.conf.local
+
+.idea/
+*.iml
