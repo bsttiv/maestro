@@ -10,13 +10,10 @@ class KeystoreManager(private val reader: KeyReader) extends IKeystoreManager {
   private val keyGenerator = KeyPairGenerator.getInstance("Ed25519")
   private var currentKeyPair = keyGenerator.generateKeyPair();
   private var oldKeyPair = currentKeyPair;
-  private val signature = Signature.getInstance("Ed25519");
-  signature.initVerify(currentKeyPair.getPublic);
   override def changeKey(): Unit = {
     val newPair = keyGenerator.generateKeyPair();
     oldKeyPair = currentKeyPair;
     currentKeyPair = newPair;
-    signature.initVerify(currentKeyPair.getPublic);
   };
   def getPrivateKey: PrivateKey = currentKeyPair.getPrivate;
 }
