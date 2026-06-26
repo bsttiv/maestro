@@ -10,6 +10,12 @@ class RedisRepository private () extends IRepository{
   private val client: RedisClient = RedisClient(uri);
   private val connection: StatefulRedisConnection = client.connect();
   private val commands: RedisAsyncCommands = connection.async();
+
+  override def saveRecord(uuid: String, time: Int): Unit = ???;
+
+  override def revokeRecord(uuid: String): Unit = ???;
+
+  override def searchRecord(uuid: String): Unit = ???;
 }
 
 object RedisRepository {
