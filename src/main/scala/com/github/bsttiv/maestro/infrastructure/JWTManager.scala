@@ -5,9 +5,11 @@ import pdi.jwt.{JwtAlgorithm, JwtCirce, JwtClaim}
 
 import java.security.PublicKey
 import io.circe.syntax.*
+import io.circe.parser.decode
 
-class JWTManager extends IJWTManager {
-  private val keystoreManager = new KeystoreManager;
+import scala.util.Try
+
+class JWTManager(private val keystoreManager: IKeystoreManager) extends IJWTManager {
 
   override def verifySignature(token: String, publicKey: PublicKey): Boolean = {
     JwtCirce.isValid(token, publicKey, Seq(JwtAlgorithm.EdDSA))
@@ -21,9 +23,9 @@ class JWTManager extends IJWTManager {
     JwtCirce.encode(jwtClaim, key, algo);
   }
 
-  override def decodeToken(token: String): TokenClaims = {
-    val key = keystoreManager.getPrivateKey;
+  override def decodeToken(token: String): Try[TokenClaims] = {
+    val key = keystoreManager.getPublicKey;
     val algo = JwtAlgorithm.EdDSA;
-    JwtCirce.decode(token, key, Seq(JwtAlgorithm.EdDSA));
+    JwtCirce.decode(token, key, Seq(JwtAlgorithm.EdDSA)).flatMap{claim:JwtClaim => decode[TokenClaims](claim.content).toTry};
   }
 }
