@@ -1,3 +1,5 @@
 package com.github.bsttiv.maestro.domain
 
-case class TokenClaims(iss: String, sub: String, iat: int, expTime:String, jti: String, ctx: String);
+import io.circe.Encoder
+
+case class TokenClaims(iss: String, sub: String, iat: int, expTime:String, jti: String, ctx: String) derives Encoder.AsObject;
