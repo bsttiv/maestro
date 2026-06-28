@@ -6,10 +6,10 @@ import io.lettuce.core.api.sync.RedisCommands
 import io.lettuce.core.{RedisClient, RedisFuture, RedisURI}
 
 class RedisRepository private () extends IRepository{
-  private val uri: RedisURI = RedisURI("localhost", 6379)
-  private val client: RedisClient = RedisClient(uri);
-  private val connection: StatefulRedisConnection = client.connect();
-  private val commands: RedisAsyncCommands = connection.async();
+  private val uri: RedisURI = RedisURI.create("localhost", 6379);g
+  private val client: RedisClient = RedisClient.create(uri);
+  private val connection: StatefulRedisConnection[String, String] = client.connect();
+  private val commands: RedisAsyncCommands[String, String] = connection.async();
 
   override def saveRecord(uuid: String, time: Int): RedisFuture[String] = {
     commands.setex(f"session:$uuid", time, "Active");
