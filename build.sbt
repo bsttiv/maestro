@@ -20,7 +20,6 @@ lazy val root = project
       
       "ch.qos.logback" % "logback-classic" % "1.4.14",
       "org.scalatest" %% "scalatest" % "3.2.17" % Test,
-      "org.typelevel" %% "cats-effect" % "3.7.0"
     ),
     
     dockerBaseImage := "eclipse-temurin:21-jre",
