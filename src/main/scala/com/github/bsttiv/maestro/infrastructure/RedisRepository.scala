@@ -9,7 +9,7 @@ import scala.jdk.FutureConverters.*
 import scala.concurrent.{ExecutionContext, Future}
 
 class RedisRepository (host: String = "localhost", port: Int = 6379) extends IRepository {
-  private val uri: RedisURI = RedisURI.create("localhost", 6379);
+  private val uri: RedisURI = RedisURI.create(host, port);
   private val client: RedisClient = RedisClient.create(uri);
   private val connection: StatefulRedisConnection[String, String] = client.connect();
   private val commands: RedisAsyncCommands[String, String] = connection.async();
