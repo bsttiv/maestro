@@ -1,9 +1,9 @@
 package com.github.bsttiv.maestro.infrastructure
 
-import io.lettuce.core.RedisFuture
+import scala.concurrent.{ExecutionContext, Future}
 
 trait IRepository {
-  def searchRecord(uuid:String): RedisFuture[String];
-  def saveRecord(uuid:String, time:Int): RedisFuture[String];
-  def revokeRecord(uuid:String): RedisFuture[String];
+  def searchRecord(implicit ec: ExecutionContext, uuid:String): Future[Option[String]];
+  def saveRecord(uuid:String, time:Long): Future[String];
+  def revokeRecord(uuid:String): Future[String];
 }
