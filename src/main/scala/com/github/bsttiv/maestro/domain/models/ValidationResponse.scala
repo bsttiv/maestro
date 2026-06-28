@@ -1,3 +1,3 @@
 package com.github.bsttiv.maestro.domain.models
 
-case class RevocationRequest(token: String);
+case class ValidationResponse()
