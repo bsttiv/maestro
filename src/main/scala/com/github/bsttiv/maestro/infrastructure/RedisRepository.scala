@@ -6,7 +6,7 @@ import io.lettuce.core.api.sync.RedisCommands
 import io.lettuce.core.{RedisClient, RedisFuture, RedisURI}
 
 class RedisRepository private () extends IRepository{
-  private val uri: RedisURI = RedisURI.create("localhost", 6379);g
+  private val uri: RedisURI = RedisURI.create("localhost", 6379);
   private val client: RedisClient = RedisClient.create(uri);
   private val connection: StatefulRedisConnection[String, String] = client.connect();
   private val commands: RedisAsyncCommands[String, String] = connection.async();
