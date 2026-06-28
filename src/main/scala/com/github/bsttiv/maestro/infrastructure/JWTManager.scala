@@ -6,7 +6,6 @@ import pdi.jwt.{JwtAlgorithm, JwtCirce, JwtClaim}
 import java.security.PublicKey
 import io.circe.syntax.*
 import io.circe.parser.decode
-
 import scala.util.Try
 
 class JWTManager(private val keystoreManager: IKeystoreManager) extends IJWTManager {
@@ -26,6 +25,6 @@ class JWTManager(private val keystoreManager: IKeystoreManager) extends IJWTMana
   override def decodeToken(token: String): Try[TokenClaims] = {
     val key = keystoreManager.getPublicKey;
     val algo = JwtAlgorithm.EdDSA;
-    JwtCirce.decode(token, key, Seq(JwtAlgorithm.EdDSA)).flatMap{claim:JwtClaim => decode[TokenClaims](claim.content).toTry};
+    JwtCirce.decode(token, key, Seq(JwtAlgorithm.EdDSA)).flatMap(claim => decode[TokenClaims](claim.content).toTry);
   }
 }
