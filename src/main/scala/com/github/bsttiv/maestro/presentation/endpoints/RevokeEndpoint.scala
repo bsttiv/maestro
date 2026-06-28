@@ -1,8 +1,7 @@
 package com.github.bsttiv.maestro.presentation.endpoints
 
 import com.github.bsttiv.maestro.application.ISessionManager
-import org.apache.pekko.http.javadsl.server.Route
-import com.github.bsttiv.maestro.domain.TokenPair
+import org.apache.pekko.http.scaladsl.server.Route
 import com.github.bsttiv.maestro.domain.models.RevocationRequest
 import sttp.tapir.*
 import sttp.tapir.json.circe.*
@@ -23,8 +22,8 @@ class RevokeEndpoint(private val baseEndpoint:EndpointType[Unit, Unit, Unit, Uni
     .errorOut(stringBody)
     .description("Revokes a session in the database")
   override def revokeRoute(using ec: ExecutionContext): Route = {
-    RouteAdapter.asJava(PekkoHttpServerInterpreter().toRoute(revokeSessionEndpoint.serverLogic(req => {
+    PekkoHttpServerInterpreter().toRoute(revokeSessionEndpoint.serverLogic(req => {
       sessionManager.revokeSessionToken(req)
-    })))
+    }))
   }
 }

@@ -2,7 +2,7 @@ package com.github.bsttiv.maestro.presentation.endpoints
 
 import com.github.bsttiv.maestro.application.ISessionManager
 import com.github.bsttiv.maestro.domain.models.{ValidationRequest, ValidationResponse}
-import org.apache.pekko.http.javadsl.server.Route
+import org.apache.pekko.http.scaladsl.server.Route
 import sttp.tapir.*
 import sttp.tapir.json.circe.*
 import io.circe.generic.auto.*
@@ -22,8 +22,8 @@ class ValidateEndpoint(private val baseEndpoint:EndpointType[Unit, Unit, Unit, U
     .errorOut(stringBody)
     .description("Verifies the session token's signature, TTL and revocation state")
   override def validateRoute(using ec: ExecutionContext): Route = {
-    RouteAdapter.asJava(PekkoHttpServerInterpreter().toRoute(validateSessionEndpoint.serverLogic(req => {
+    PekkoHttpServerInterpreter().toRoute(validateSessionEndpoint.serverLogic(req => {
       sessionManager.validateSessionToken(req)
-    })))
+    }))
   }
 }

@@ -1,7 +1,7 @@
 package com.github.bsttiv.maestro.presentation.endpoints
 
 import com.github.bsttiv.maestro.application.ISessionManager
-import org.apache.pekko.http.javadsl.server.Route
+import org.apache.pekko.http.scaladsl.server.Route
 import com.github.bsttiv.maestro.domain.TokenPair
 import com.github.bsttiv.maestro.domain.models.MintSessionRequest
 import sttp.tapir.*
@@ -23,8 +23,8 @@ class MintEndpoint(private val baseEndpoint:EndpointType[Unit, Unit, Unit, Unit,
     .errorOut(stringBody)
     .description("Generates a new session for the specified user and registers him on the database");
   override def mintRoute(using ec: ExecutionContext): Route = {
-    RouteAdapter.asJava(PekkoHttpServerInterpreter().toRoute(mintSessionEndpoint.serverLogic(req => {
+    PekkoHttpServerInterpreter().toRoute(mintSessionEndpoint.serverLogic(req => {
       sessionManager.generateSessionToken(req)
-    })))
+    }))
   }
 }
