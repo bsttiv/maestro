@@ -29,9 +29,9 @@ object MainServer {
     val bindingFuture = Http(system).newServerAt("0.0.0.0", 8080).bind(maestroRoutes)
     bindingFuture.onComplete {
       case Success(binding) =>
-        println(s"Servidor Maestro Zero-Trust corriendo exitosamente en http://localhost:8080/")
+        println(s"Maestro Zero-Trust server running on http://localhost:8080/")
       case Failure(ex) =>
-        println(s"Error fatal al iniciar el servidor: ${ex.getMessage}")
+        println(s"Fatal error starting the server: ${ex.getMessage}")
         system.terminate()
     }
 
